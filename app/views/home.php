@@ -1,64 +1,86 @@
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-card">
-      <h1><?= e(t('მუნიციპალიტეტის საინფორმაციო პორტალი', 'Municipality Information Portal')) ?></h1>
-      <p><?= e(t('სიახლეები, დეპარტამენტები, ოფიციალური ინფორმაცია და სერვისები ერთ სივრცეში.',
-                'News, departments, official information and services in one place.')) ?></p>
-      <div class="hero-actions">
-        <a class="btn primary" href="<?= e(url_to('/news')) ?>"><?= e(t('ნახე სიახლეები', 'View news')) ?></a>
-        <a class="btn ghost" href="<?= e(url_to('/departments')) ?>"><?= e(t('დეპარტამენტები', 'Departments')) ?></a>
-      </div>
-    </div>
-
-    <div class="hero-stats">
-      <div class="stat">
-        <b>12</b><span><?= e(t('დეპარტამენტი', 'Departments')) ?></span>
-      </div>
-      <div class="stat">
-        <b><?= e((string)count($news)) ?></b><span><?= e(t('ახალი სიახლე', 'Latest news')) ?></span>
-      </div>
-      <div class="stat">
-        <b>24/7</b><span><?= e(t('ინფორმაცია', 'Information')) ?></span>
-      </div>
-    </div>
+<?php $headline = $news[0]['title'] ?? t('მოგესალმებით ფოთის მუნიციპალიტეტის ოფიციალურ პორტალზე.', 'Welcome to the official municipality portal.'); ?>
+<section class="ticker">
+  <div class="wrap ticker-row">
+    <span class="ticker-label"><?= e(t('სიახლეები', 'News')) ?></span>
+    <span class="ticker-text"><?= e($headline) ?></span>
+    <span class="ticker-time"><?= e(date('H:i:s')) ?></span>
   </div>
 </section>
 
-<section class="wrap section">
-  <div class="section-head">
-    <h2><?= e(t('სწრაფი ბმულები', 'Quick links')) ?></h2>
-  </div>
-  <div class="cards">
-    <a class="card" href="<?= e(url_to('/page/about')) ?>"><b><?= e(t('ჩვენს შესახებ', 'About')) ?></b><span><?= e(t('მთავარი ინფორმაცია', 'Main info')) ?></span></a>
-    <a class="card" href="<?= e(url_to('/departments')) ?>"><b><?= e(t('დეპარტამენტები', 'Departments')) ?></b><span><?= e(t('სტრუქტურა და კონტაქტი', 'Structure & contact')) ?></span></a>
-    <a class="card" href="<?= e(url_to('/news')) ?>"><b><?= e(t('სიახლეები', 'News')) ?></b><span><?= e(t('განახლებები და განცხადებები', 'Updates & announcements')) ?></span></a>
-    <a class="card" href="<?= e(url_to('/page/about')) ?>"><b><?= e(t('დოკუმენტები', 'Documents')) ?></b><span><?= e(t('კონცეფცია/ბიუჯეტი/სტრატეგია', 'Concept/Budget/Strategy')) ?></span></a>
-  </div>
-</section>
-
-<section class="wrap section">
-  <div class="section-head">
-    <h2><?= e(t('ბოლო სიახლეები', 'Latest news')) ?></h2>
-    <a class="link" href="<?= e(url_to('/news')) ?>"><?= e(t('ყველა სიახლე', 'All news')) ?> →</a>
-  </div>
-
-  <div class="news-grid">
-    <?php foreach ($news as $n): ?>
-      <a class="news-card" href="<?= e(url_to('/news/' . (int)$n['id'])) ?>">
-        <div class="news-cover">
-          <?php if (!empty($n['cover'])): ?>
-            <img src="<?= e($n['cover']) ?>" alt="">
+<section class="wrap main-grid">
+  <div class="content-main">
+    <div class="gallery-strip">
+      <?php foreach (array_slice($news, 0, 6) as $thumb): ?>
+        <div class="gallery-thumb">
+          <?php if (!empty($thumb['cover'])): ?>
+            <img src="<?= e($thumb['cover']) ?>" alt="">
           <?php else: ?>
-            <div class="ph"></div>
+            <div class="thumb-ph"></div>
           <?php endif; ?>
         </div>
-        <div class="news-body">
-          <div class="news-meta"><?= e($n['published_at'] ?: '') ?></div>
-          <b class="news-title"><?= e($n['title']) ?></b>
-        </div>
-      </a>
-    <?php endforeach; ?>
+      <?php endforeach; ?>
+    </div>
+
+    <?php $feature = $news[0] ?? null; ?>
+    <div class="feature-card">
+      <div class="feature-media">
+        <?php if (!empty($feature['cover'])): ?>
+          <img src="<?= e($feature['cover']) ?>" alt="">
+        <?php else: ?>
+          <div class="ph"></div>
+        <?php endif; ?>
+      </div>
+      <div class="feature-body">
+        <h2><?= e($feature['title'] ?? t('მთავარი სიახლე', 'Main story')) ?></h2>
+        <p><?= e(t('პირდაპირი სიახლეები და ოფიციალური განცხადებები ერთ სივრცეში.', 'Latest news and official announcements in one place.')) ?></p>
+        <?php if ($feature): ?>
+          <a class="feature-link" href="<?= e(url_to('/news/' . (int)$feature['id'])) ?>"><?= e(t('ვრცლად →', 'Read more →')) ?></a>
+        <?php endif; ?>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <h2><?= e(t('ბოლო სიახლეები', 'Latest news')) ?></h2>
+      <a class="link" href="<?= e(url_to('/news')) ?>"><?= e(t('ყველა სიახლე', 'All news')) ?> →</a>
+    </div>
+
+    <div class="news-list">
+      <?php foreach ($news as $n): ?>
+        <a class="news-row" href="<?= e(url_to('/news/' . (int)$n['id'])) ?>">
+          <div class="news-thumb">
+            <?php if (!empty($n['cover'])): ?>
+              <img src="<?= e($n['cover']) ?>" alt="">
+            <?php else: ?>
+              <div class="thumb-ph"></div>
+            <?php endif; ?>
+          </div>
+          <div class="news-info">
+            <div class="news-title"><?= e($n['title']) ?></div>
+            <div class="news-meta"><?= e($n['published_at'] ?: '') ?></div>
+          </div>
+        </a>
+      <?php endforeach; ?>
+    </div>
   </div>
+
+  <aside class="content-side">
+    <div class="side-card">
+      <h3><?= e(t('მუნიციპალური სერვისები', 'Municipal services')) ?></h3>
+      <a href="#" class="side-link">📄 <?= e(t('ონლაინ განაცხადი', 'Online application')) ?></a>
+      <a href="#" class="side-link">🏛️ <?= e(t('მერის მისაღები', 'Mayor reception')) ?></a>
+      <a href="#" class="side-link">📚 <?= e(t('საჯარო ინფორმაცია', 'Public information')) ?></a>
+      <a href="#" class="side-link">🚌 <?= e(t('ტრანსპორტი', 'Transport')) ?></a>
+      <a href="#" class="side-link">💧 <?= e(t('კომუნალური სერვისები', 'Utilities')) ?></a>
+    </div>
+
+    <div class="side-card">
+      <h3><?= e(t('სწრაფი ბმულები', 'Quick links')) ?></h3>
+      <a href="<?= e(url_to('/page/about')) ?>" class="side-link">ℹ️ <?= e(t('ჩვენს შესახებ', 'About')) ?></a>
+      <a href="<?= e(url_to('/departments')) ?>" class="side-link">🏢 <?= e(t('დეპარტამენტები', 'Departments')) ?></a>
+      <a href="<?= e(url_to('/news')) ?>" class="side-link">📰 <?= e(t('სიახლეები', 'News')) ?></a>
+      <a href="<?= e(base_path()) ?>/admin/" class="side-link">🔐 <?= e(t('ადმინისტრაცია', 'Admin')) ?></a>
+    </div>
+  </aside>
 </section>
 
 <section class="wrap section">
