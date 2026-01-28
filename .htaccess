@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  Options -Indexes
+
+  DirectoryIndex public/index.php
+
+  # Block access to sensitive paths/files at repo root.
+  RewriteRule ^(\.git|app|database\.sql|README\.md|test\.html)(/.*)?$ - [F,L]
+
+  # If the request isn't already pointing to /public, rewrite to it.
+  RewriteCond %{REQUEST_URI} !^/public/
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
