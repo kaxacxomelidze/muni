@@ -12,7 +12,11 @@ function e(string $s): string {
 }
 
 function base_path(): string {
-  return (string)cfg('base_path', '');
+  $base = cfg('base_path', null);
+  if ($base === null || $base === '') {
+    $base = cfg('public_url', '');
+  }
+  return rtrim((string)$base, '/');
 }
 
 function redirect(string $path): void {
