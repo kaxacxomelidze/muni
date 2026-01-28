@@ -44,14 +44,10 @@ declare(strict_types=1);
         <div class="brand-sub"><?= e(t('ოფიციალური საინფორმაციო პორტალი', 'Official information portal')) ?></div>
       </div>
     </a>
-    <div class="brand-en">POTI CITY MUNICIPALITY</div>
-  </div>
-  <div class="masthead-illustration" aria-hidden="true">
-    <svg viewBox="0 0 1200 180" role="img" aria-label="">
-      <path d="M20 150L140 120L170 40L220 150L260 120L300 150L340 130L360 80L380 150L440 150L440 90L520 90L520 150L600 150L600 40L660 40L660 150L700 150L700 80L740 80L740 150L820 150L820 60L900 60L900 150L980 150L980 90L1040 90L1040 150L1180 150" fill="none" stroke="currentColor" stroke-width="2"/>
-      <path d="M140 120L140 70M155 70L125 70M150 70L150 30" fill="none" stroke="currentColor" stroke-width="2"/>
-      <path d="M540 150V100M560 150V100M540 100H560" fill="none" stroke="currentColor" stroke-width="2"/>
-    </svg>
+    <div class="header-search" role="search">
+      <input type="search" placeholder="<?= e(t('მოძებნე საიტზე...', 'Search the site...')) ?>" aria-label="<?= e(t('ძებნა', 'Search')) ?>">
+      <button type="button"><?= e(t('ძებნა', 'Search')) ?></button>
+    </div>
   </div>
 </header>
 
@@ -74,6 +70,22 @@ declare(strict_types=1);
 </main>
 
 <footer class="footer">
+  <div class="wrap footer-top">
+    <div class="footer-brand">
+      <div class="logo">M</div>
+      <div>
+        <div class="footer-title"><?= e(t('ქალაქ ფოთის მუნიციპალიტეტი', 'Poti City Municipality')) ?></div>
+        <div class="footer-sub"><?= e(t('ოფიციალური საინფორმაციო პორტალი', 'Official information portal')) ?></div>
+      </div>
+    </div>
+    <div class="footer-social">
+      <a href="#" aria-label="Facebook">f</a>
+      <a href="#" aria-label="YouTube">▶</a>
+      <a href="#" aria-label="Instagram">◎</a>
+      <a href="#" aria-label="LinkedIn">in</a>
+    </div>
+  </div>
+
   <div class="wrap footer-grid">
     <div>
       <h4><?= e(t('კონტაქტი', 'Contact')) ?></h4>
@@ -91,7 +103,12 @@ declare(strict_types=1);
       <h4><?= e(t('მოქალაქის სერვისები', 'Citizen services')) ?></h4>
       <p><?= e(t('აქ შეიძლება იყოს სწრაფი ბმულები და სერვისები.', 'Here you can place quick links and services.')) ?></p>
     </div>
+    <div>
+      <h4><?= e(t('დოკუმენტები', 'Documents')) ?></h4>
+      <p><?= e(t('კონცეფცია, ბიუჯეტი და სტრატეგია.', 'Concept, budget and strategy.')) ?></p>
+    </div>
   </div>
+
   <div class="wrap footer-bottom">
     <span>© <?= date('Y') ?> Municipality</span>
   </div>
