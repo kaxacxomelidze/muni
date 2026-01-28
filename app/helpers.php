@@ -12,7 +12,22 @@ function e(string $s): string {
 }
 
 function base_path(): string {
-  return (string)cfg('base_path', '');
+  $base = cfg('base_path', null);
+  if ($base === null || $base === '') {
+    $base = cfg('public_url', '');
+  }
+  if ($base === null || $base === '') {
+    $scriptName = (string)($_SERVER['SCRIPT_NAME'] ?? '');
+    $dir = str_replace('\\', '/', dirname($scriptName));
+    $dir = rtrim($dir, '/');
+    if ($dir !== '' && $dir !== '.') {
+      if (str_ends_with($dir, '/public')) {
+        $dir = substr($dir, 0, -7);
+      }
+      $base = $dir === '/' ? '' : $dir;
+    }
+  }
+  return rtrim((string)$base, '/');
 }
 
 function redirect(string $path): void {
